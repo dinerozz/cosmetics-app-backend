@@ -11,7 +11,7 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - 7000:7000
+      - 4000:4000
       - 9229:9229
     command: npm run start:dev
     depends_on:
