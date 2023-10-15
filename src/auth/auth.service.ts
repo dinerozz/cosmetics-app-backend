@@ -31,6 +31,11 @@ export class AuthService {
 
   async register(userDto: CreateUserDto, response: Response) {
     const candidate = await this.userService.getUserByEmail(userDto.email);
+
+    if (userDto.email.length === 0 || userDto.password.length === 0) {
+      throw new HttpException('Email or password should not be empty', HttpStatus.BAD_REQUEST)
+    }
+
     if (candidate) {
       throw new HttpException(
         'User with given email address already exists',
