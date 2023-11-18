@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
@@ -8,6 +8,16 @@ RUN npm ci
 
 COPY . .
 
-COPY ./dist ./dist
+RUN npm run build
+
+# Stage 2: Run
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+
+RUN npm ci
 
 CMD ["npm", "run", "start:dev"]
