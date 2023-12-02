@@ -33,6 +33,8 @@ export class UsersService {
 
     user.fullName = dto.fullName;
     user.profileImageUrl = dto.profileImageUrl;
+    user.dateOfBirth = dto.dateOfBirth;
+
     await user.save();
     return user;
   }

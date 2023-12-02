@@ -15,6 +15,9 @@ export class CreateUserDto {
   @IsString({ message: 'Should be a string' })
   readonly fullName: string;
 
+  @ApiProperty({example: "2021-08-31T14:00:00.000Z", description: "Date of birth"})
+  dateOfBirth: Date;
+
   @ApiProperty({ example: 'http://example.com/myprofilepic.jpg', description: 'Profile Image URL' })
   @IsString({ message: 'Should be a string' })
   readonly profileImageUrl: string;

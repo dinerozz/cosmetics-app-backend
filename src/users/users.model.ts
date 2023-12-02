@@ -38,6 +38,10 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: true })
   fullName: string;
 
+  @ApiProperty({example: "2021-08-31T14:00:00.000Z", description: "Date of birth"})
+  @Column({ type: DataType.DATE, allowNull: true })
+  dateOfBirth: Date;
+
   @ApiProperty({ example: 'http://example.com/myprofilepic.jpg', description: 'Profile Image URL' })
   @Column({ type: DataType.STRING, allowNull: true })
   profileImageUrl: string;
