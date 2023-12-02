@@ -1,11 +1,14 @@
-import { User } from './users.model';
-import { InjectModel } from '@nestjs/sequelize';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { RolesService } from '../roles/roles.service';
-import { AddRoleDto } from './dto/add-role.dto';
-import { BanUserDto } from './dto/ban-user.dto';
-import { JwtService } from '@nestjs/jwt';
+import {User} from './users.model';
+import {InjectModel} from '@nestjs/sequelize';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {CreateUserDto} from './dto/create-user.dto';
+import {RolesService} from '../roles/roles.service';
+import {AddRoleDto} from './dto/add-role.dto';
+import {BanUserDto} from './dto/ban-user.dto';
+import {JwtService} from '@nestjs/jwt';
+import {Express} from "express";
+import * as path from "path";
+import * as fs from "fs";
 
 @Injectable()
 export class UsersService {
@@ -23,6 +26,22 @@ export class UsersService {
     return user;
   }
 
+  async updateProfileImage(file: Express.Multer.File, token: string) {
+    const decodedToken = this.jwtService.decode(token.split(' ')[1]);
+    const userId = decodedToken['id'];
+    const user = await this.userRepository.findByPk(userId);
+    if (!user) {
+      throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
+    }
+    if (file) {
+      const profileImageUrl = await this.saveProfileImage(file);
+      user.profileImageUrl = profileImageUrl;
+    }
+
+    await user.save();
+    return user;
+  }
+
   async updateProfile(dto: CreateUserDto, token: string) {
     const decodedToken = this.jwtService.decode(token.split(' ')[1]);
     const userId = decodedToken['id'];
@@ -32,7 +51,6 @@ export class UsersService {
     }
 
     user.fullName = dto.fullName;
-    user.profileImageUrl = dto.profileImageUrl;
     user.dateOfBirth = dto.dateOfBirth;
 
     await user.save();
@@ -88,5 +106,19 @@ export class UsersService {
     user.banReason = dto.reason;
     await user.save();
     return user;
+  }
+
+  private async saveProfileImage(file: Express.Multer.File): Promise<string> {
+    const uploadDir = './dist/profile-images';
+    const filename = `${Date.now()}-${file.originalname}`;
+    const fullPath = path.join(uploadDir, filename);
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    fs.writeFileSync(fullPath, file.buffer);
+
+    return `http://localhost:3000/dist/profile-images/${filename}`;
   }
 }

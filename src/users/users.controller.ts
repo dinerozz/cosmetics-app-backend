@@ -3,8 +3,8 @@ import {
   Controller,
   Get,
   Param, Patch,
-  Post,
-  UseGuards,
+  Post, Req, UploadedFile,
+  UseGuards, UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -18,6 +18,7 @@ import { BanUserDto } from './dto/ban-user.dto';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { Headers } from '@nestjs/common';
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {FileInterceptor} from "@nestjs/platform-express";
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
@@ -35,8 +36,17 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Patch('/profile')
   @UseGuards(JwtAuthGuard)
-  updateProfile(@Body() userDto: CreateUserDto, @Headers() headers) {
-    return this.userService.updateProfile(userDto, headers["authorization"]);
+  updateProfile(@Body() userDto: CreateUserDto, @Headers('authorization') token: string) {
+    return this.userService.updateProfile(userDto, token);
+  }
+
+  @ApiOperation({ summary: 'Update user profile' })
+  @ApiResponse({ status: 200, type: User })
+  @Patch('/profile-image')
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
+  updateProfileImage(@UploadedFile() file, @Body() userDto: CreateUserDto, @Req() req) {
+    return this.userService.updateProfileImage(file, req.headers.authorization);
   }
 
   @ApiOperation({ summary: 'Get user by id' })
