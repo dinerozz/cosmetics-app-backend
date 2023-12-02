@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
+  Param, Patch,
   Post,
   UseGuards,
   UsePipes,
@@ -17,6 +17,7 @@ import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { Headers } from '@nestjs/common';
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
@@ -28,6 +29,14 @@ export class UsersController {
   @Post()
   create(@Body() userDto: CreateUserDto) {
     return this.userService.createUser(userDto);
+  }
+
+  @ApiOperation({ summary: 'Update user profile' })
+  @ApiResponse({ status: 200, type: User })
+  @Patch('/profile')
+  @UseGuards(JwtAuthGuard)
+  updateProfile(@Body() userDto: CreateUserDto, @Headers() headers) {
+    return this.userService.updateProfile(userDto, headers["authorization"]);
   }
 
   @ApiOperation({ summary: 'Get user by id' })

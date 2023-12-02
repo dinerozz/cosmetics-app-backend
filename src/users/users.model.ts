@@ -34,6 +34,14 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
+  @ApiProperty({ example: 'Aimira', description: 'name' })
+  @Column({ type: DataType.STRING, allowNull: true })
+  fullName: string;
+
+  @ApiProperty({ example: 'http://example.com/myprofilepic.jpg', description: 'Profile Image URL' })
+  @Column({ type: DataType.STRING, allowNull: true })
+  profileImageUrl: string;
+
   @ApiProperty({ example: 'true', description: 'Is banned or not' })
   @Column({ type: DataType.BOOLEAN, defaultValue: false })
   banned: boolean;

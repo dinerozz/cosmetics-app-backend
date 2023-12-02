@@ -23,6 +23,20 @@ export class UsersService {
     return user;
   }
 
+  async updateProfile(dto: CreateUserDto, token: string) {
+    const decodedToken = this.jwtService.decode(token.split(' ')[1]);
+    const userId = decodedToken['id'];
+    const user = await this.userRepository.findByPk(userId);
+    if (!user) {
+      throw new HttpException(`User doesn't exist`, HttpStatus.NOT_FOUND);
+    }
+
+    user.fullName = dto.fullName;
+    user.profileImageUrl = dto.profileImageUrl;
+    await user.save();
+    return user;
+  }
+
   async getUserById(userId) {
     const user = await this.userRepository.findByPk(userId);
     return user;

@@ -10,4 +10,12 @@ export class CreateUserDto {
   @IsString({ message: 'Should be a string' })
   @Length(8, 24, { message: 'Not less than 8 and not more than 24' })
   readonly password: string;
+
+  @ApiProperty({ example: 'Aimira', description: 'name' })
+  @IsString({ message: 'Should be a string' })
+  readonly fullName: string;
+
+  @ApiProperty({ example: 'http://example.com/myprofilepic.jpg', description: 'Profile Image URL' })
+  @IsString({ message: 'Should be a string' })
+  readonly profileImageUrl: string;
 }
