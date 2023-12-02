@@ -119,6 +119,6 @@ export class UsersService {
 
     fs.writeFileSync(fullPath, file.buffer);
 
-    return `http://localhost:3000/dist/profile-images/${filename}`;
+    return `http://localhost:4000/dist/profile-images/${filename}`;
   }
 }
