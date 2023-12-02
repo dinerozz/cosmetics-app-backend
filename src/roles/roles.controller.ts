@@ -11,6 +11,11 @@ export class RolesController {
     return this.roleService.createRole(dto);
   }
 
+  @Post('/seed')
+  seed() {
+    return this.roleService.seedRoles();
+  }
+
   @Get('/:value')
   getByValue(@Param('value') value: string) {
     return this.roleService.getRoleByValue(value);

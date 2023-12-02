@@ -10,7 +10,6 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
-  providers: [],
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
