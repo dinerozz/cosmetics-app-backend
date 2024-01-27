@@ -10,8 +10,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Role } from "../roles/roles.model";
 import { UserRoles } from "../roles/user-roles.model";
 import { DataTypes } from "sequelize";
-import { UserPreferences } from "./user-preferences.model";
-import { Recommendations } from "../products/recommendations.model";
+import { UserPreferences } from "../user-preferences/user-preferences.model";
+import { Recommendations } from "../recommendations/recommendations.model";
 
 interface UserCreationAttributes {
   email: string;

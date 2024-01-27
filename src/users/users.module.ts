@@ -7,7 +7,7 @@ import { Role } from "../roles/roles.model";
 import { UserRoles } from "../roles/user-roles.model";
 import { RolesModule } from "../roles/roles.module";
 import { AuthModule } from "../auth/auth.module";
-import { UserPreferences } from "./user-preferences.model";
+import { UserPreferences } from "../user-preferences/user-preferences.model";
 import { Products } from "../products/products.model";
 
 @Module({

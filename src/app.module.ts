@@ -10,11 +10,13 @@ import { AuthModule } from "./auth/auth.module";
 import { CategoriesModule } from "./categories/categories.module";
 import { ProductsModule } from "./products/products.module";
 import { SuggestionsModule } from "./suggestions/suggestions.module";
-import { UserPreferences } from "./users/user-preferences.model";
-import { Recommendations } from "./products/recommendations.model";
+import { UserPreferences } from "./user-preferences/user-preferences.model";
+import { Recommendations } from "./recommendations/recommendations.model";
 import { Products } from "./products/products.model";
-import { RecommendationsController } from './recommendations/recommendations.controller';
-import { RecommendationsService } from './recommendations/recommendations.service';
+import { RecommendationsController } from "./recommendations/recommendations.controller";
+import { RecommendationsService } from "./recommendations/recommendations.service";
+import { RecommendationsModule } from "./recommendations/recommendations.module";
+import { UserPreferencesModule } from "./user-preferences/user-preferences.module";
 
 @Module({
   controllers: [RecommendationsController],
@@ -45,6 +47,8 @@ import { RecommendationsService } from './recommendations/recommendations.servic
     CategoriesModule,
     ProductsModule,
     SuggestionsModule,
+    RecommendationsModule,
+    UserPreferencesModule,
   ],
   providers: [RecommendationsService],
 })

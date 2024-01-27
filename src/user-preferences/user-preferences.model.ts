@@ -7,10 +7,9 @@ import {
 } from "sequelize-typescript";
 import { DataTypes } from "sequelize";
 import { User } from "../users/users.model";
-import { Products } from "./products.model";
 
-@Table({ tableName: "recommendations" })
-export class Recommendations extends Model<Recommendations> {
+@Table({ tableName: "user_preferences" })
+export class UserPreferences extends Model<UserPreferences> {
   @Column({ type: DataTypes.UUID, primaryKey: true })
   id: string;
 
@@ -18,16 +17,12 @@ export class Recommendations extends Model<Recommendations> {
   @Column({ type: DataTypes.UUID, allowNull: false, unique: true })
   userId: string;
 
-  @ForeignKey(() => Products)
-  @Column({ type: DataTypes.UUID, allowNull: false, unique: false })
-  productId: string;
+  @Column({ type: DataTypes.STRING, allowNull: false, unique: false })
+  preferenceType: string;
 
   @Column({ type: DataTypes.STRING, allowNull: false, unique: false })
-  reason: string;
-
-  @BelongsTo(() => Products)
-  product: Products;
+  preferenceValue: string;
 
   @BelongsTo(() => User)
-  user: User;
+  users: User;
 }

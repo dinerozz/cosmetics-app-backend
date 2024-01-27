@@ -9,7 +9,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Express } from "express";
 import * as path from "path";
 import * as fs from "fs";
-import { UserPreferences } from "./user-preferences.model";
+import { UserPreferences } from "../user-preferences/user-preferences.model";
 
 @Injectable()
 export class UsersService {

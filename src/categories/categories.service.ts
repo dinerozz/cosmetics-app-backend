@@ -10,8 +10,8 @@ export class CategoriesService {
     private categoryModel: typeof Categories
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    return this.categoryModel.create(createCategoryDto);
+  async create(createCategoryDto: CreateCategoryDto[]) {
+    return this.categoryModel.bulkCreate(createCategoryDto);
   }
 
   async findAll(): Promise<Categories[]> {
