@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { UserPreferencesDto } from "./dto/user-preferences.dto";
 import { UserPreferencesService } from "./user-preferences.service";
 
@@ -7,7 +7,7 @@ export class UserPreferencesController {
   constructor(private userPreferencesService: UserPreferencesService) {}
 
   @Post()
-  async create(userPreferences: UserPreferencesDto) {
+  async create(@Body() userPreferences: UserPreferencesDto) {
     return this.userPreferencesService.create(userPreferences);
   }
 

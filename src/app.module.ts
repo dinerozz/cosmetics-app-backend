@@ -19,7 +19,6 @@ import { RecommendationsModule } from "./recommendations/recommendations.module"
 import { UserPreferencesModule } from "./user-preferences/user-preferences.module";
 
 @Module({
-  controllers: [RecommendationsController],
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
@@ -50,6 +49,5 @@ import { UserPreferencesModule } from "./user-preferences/user-preferences.modul
     RecommendationsModule,
     UserPreferencesModule,
   ],
-  providers: [RecommendationsService],
 })
 export class AppModule {}
