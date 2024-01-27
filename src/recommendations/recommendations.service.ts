@@ -43,14 +43,15 @@ export class RecommendationsService {
       filteredProducts = [...new Set([...filteredProducts, ...products])];
 
       for (const product of filteredProducts) {
-        const recommendation = new Recommendations();
-        recommendation.userId = userId;
-        recommendation.productId = product.id;
-        recommendation.reason = `Подходит на основе предпочтения: ${preference.preferenceType}`;
-        recommendations.push(recommendation);
+        recommendations.push({
+          userId,
+          productId: product.id,
+          reason: `Подходит на основе предпочтения: ${preference.preferenceType}`,
+        });
       }
     }
-
+    console.log("recommendations", recommendations);
+    await this.recommendationsModel.bulkCreate(recommendations);
     return filteredProducts;
   }
 }

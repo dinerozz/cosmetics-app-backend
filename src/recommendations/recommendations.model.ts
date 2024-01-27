@@ -11,11 +11,15 @@ import { Products } from "../products/products.model";
 
 @Table({ tableName: "recommendations" })
 export class Recommendations extends Model<Recommendations> {
-  @Column({ type: DataTypes.UUID, primaryKey: true })
+  @Column({
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
+  })
   id: string;
 
   @ForeignKey(() => User)
-  @Column({ type: DataTypes.UUID, allowNull: false, unique: true })
+  @Column({ type: DataTypes.UUID, allowNull: false })
   userId: string;
 
   @ForeignKey(() => Products)
