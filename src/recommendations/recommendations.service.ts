@@ -5,11 +5,6 @@ import { Products } from "../products/products.model";
 import { Recommendations } from "./recommendations.model";
 import { Op } from "sequelize";
 
-const preferences = [
-  { preferenceType: "skinType", preferenceValue: "жирная" },
-  { preferenceType: "hairType", preferenceValue: "сухие" },
-];
-
 @Injectable()
 export class RecommendationsService {
   constructor(
@@ -21,37 +16,30 @@ export class RecommendationsService {
     private recommendationsModel: typeof Recommendations
   ) {}
 
-  async generateRecommendations(userId: string) {
+  async generateRecommendations(userId) {
     const userPreferences = await this.userPreferencesModel.findAll({
       where: { userId },
     });
 
-    const recommendations = [];
-    let filteredProducts = [];
-
-    let orConditions = preferences.map((pref) => {
+    let orConditions = userPreferences.map((pref) => {
       return { [pref.preferenceType]: pref.preferenceValue };
     });
 
-    for (const preference of userPreferences) {
-      const products = await this.productsModel.findAll({
-        where: {
-          [Op.or]: orConditions,
-        },
-      });
+    const products = await this.productsModel.findAll({
+      where: {
+        [Op.or]: orConditions,
+      },
+    });
 
-      filteredProducts = [...new Set([...filteredProducts, ...products])];
+    const recommendations = products.map((product) => ({
+      userId,
+      productId: product.id,
+      reason: `Подходит на основе предпочтений пользователя`,
+    }));
 
-      for (const product of filteredProducts) {
-        recommendations.push({
-          userId,
-          productId: product.id,
-          reason: `Подходит на основе предпочтения: ${preference.preferenceType}`,
-        });
-      }
-    }
     console.log("recommendations", recommendations);
     await this.recommendationsModel.bulkCreate(recommendations);
-    return filteredProducts;
+
+    return products;
   }
 }

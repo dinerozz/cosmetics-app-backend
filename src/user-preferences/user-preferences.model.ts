@@ -19,7 +19,7 @@ export class UserPreferences extends Model<UserPreferences> {
   id: string;
 
   @ForeignKey(() => User)
-  @Column({ type: DataTypes.UUID, unique: true })
+  @Column({ type: DataTypes.UUID })
   userId: string;
 
   @Column({ type: DataTypes.STRING, unique: false })
