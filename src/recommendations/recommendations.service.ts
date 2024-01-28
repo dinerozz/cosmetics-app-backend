@@ -37,7 +37,6 @@ export class RecommendationsService {
       reason: `Подходит на основе предпочтений пользователя`,
     }));
 
-    console.log("recommendations", recommendations);
     await this.recommendationsModel.bulkCreate(recommendations);
 
     return products;
