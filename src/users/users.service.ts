@@ -30,7 +30,10 @@ export class UsersService {
   }
 
   async updateProfileImage(file: Express.Multer.File, token: string) {
-    const decodedToken = this.jwtService.decode(token.split(" ")[1]);
+    const decodedToken = this.jwtService.decode(
+      token.includes("Bearer") ? token.split(" ")[1] : token
+    );
+
     const userId = decodedToken["id"];
     const user = await this.userRepository.findByPk(userId);
     if (!user) {
@@ -38,7 +41,7 @@ export class UsersService {
     }
     if (file) {
       const profileImageUrl = await this.saveProfileImage(file);
-      user.profileImageUrl = profileImageUrl;
+      user.profileImageUrl = profileImageUrl.replace("/dist", "");
     }
 
     await user.save();
@@ -66,11 +69,21 @@ export class UsersService {
   }
 
   async getCurrentUser(headers: Headers) {
-    const token = headers["authorization"].split(" ")[1];
+    const token = headers["authorization"].includes("Bearer")
+      ? headers["authorization"].split(" ")[1]
+      : headers["authorization"];
+
     const user = this.jwtService.decode(token);
     return this.userRepository.findOne({
       where: { id: user["id"] },
-      attributes: ["id", "email", "banned", "banReason"],
+      attributes: [
+        "id",
+        "email",
+        "fullName",
+        "profileImageUrl",
+        "banned",
+        "banReason",
+      ],
     });
   }
   /*
