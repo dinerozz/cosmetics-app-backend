@@ -1,32 +1,72 @@
-import { IsNumber, IsOptional, IsString, IsUrl, IsUUID } from "class-validator";
+import {
+  IsArray,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUrl,
+  IsUUID,
+} from "class-validator";
+import {
+  AgeGroup,
+  EthicalPreferences,
+  HairType,
+  Ingredients,
+  ProductPurpose,
+  SkinConcern,
+  SkinType,
+  UsageTime,
+} from "../products.model";
 
 export class UpdateProductDto {
+  @IsUUID()
+  readonly categoryId: string;
+
   @IsString()
-  readonly name: string;
+  readonly productName: string;
 
   @IsString()
   @IsOptional()
   readonly description?: string;
 
-  @IsString()
-  readonly productName: string;
-
   @IsUrl()
   @IsOptional()
-  readonly imageUrl?: string;
+  readonly imageURL?: string;
 
-  @IsUUID()
-  readonly categoryId: string;
+  @IsEnum(SkinType)
+  skinType: SkinType[];
 
-  @IsString()
-  skinType: string;
-
-  @IsString()
-  hairType: string;
+  @IsEnum(HairType)
+  hairType: HairType[];
 
   @IsString()
-  specialConditions: string;
+  @IsOptional()
+  specialConditions?: string;
+
+  @IsEnum(UsageTime)
+  usageTime: UsageTime[];
 
   @IsString()
-  purpose: string;
+  @IsOptional()
+  season?: string;
+
+  @IsArray()
+  @IsEnum(Ingredients, { each: true })
+  ingredients: Ingredients[];
+
+  @IsArray()
+  @IsEnum(EthicalPreferences, { each: true })
+  ethicalPreferences: EthicalPreferences[];
+
+  @IsEnum(ProductPurpose)
+  purpose: ProductPurpose[];
+
+  @IsString()
+  brand: string;
+
+  @IsEnum(AgeGroup)
+  ageGroup: AgeGroup[];
+
+  @IsEnum(SkinConcern)
+  @IsOptional()
+  skinConcern?: SkinConcern[];
 }

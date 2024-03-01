@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, OnModuleInit } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { UsersModule } from "./users/users.module";
 import { ConfigModule } from "@nestjs/config";
@@ -13,10 +13,14 @@ import { SuggestionsModule } from "./suggestions/suggestions.module";
 import { UserPreferences } from "./user-preferences/user-preferences.model";
 import { Recommendations } from "./recommendations/recommendations.model";
 import { Products } from "./products/products.model";
-import { RecommendationsController } from "./recommendations/recommendations.controller";
-import { RecommendationsService } from "./recommendations/recommendations.service";
 import { RecommendationsModule } from "./recommendations/recommendations.module";
 import { UserPreferencesModule } from "./user-preferences/user-preferences.module";
+import { Categories } from "./categories/categories.model";
+import {
+  CategoriesService,
+  categoryData,
+} from "./categories/categories.service";
+import { productsData, ProductsService } from "./products/products.service";
 
 @Module({
   imports: [
@@ -35,6 +39,7 @@ import { UserPreferencesModule } from "./user-preferences/user-preferences.modul
         Role,
         UserRoles,
         UserPreferences,
+        Categories,
         Products,
         Recommendations,
       ],
@@ -50,4 +55,14 @@ import { UserPreferencesModule } from "./user-preferences/user-preferences.modul
     UserPreferencesModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(
+    private readonly categoriesService: CategoriesService,
+    private readonly productsService: ProductsService
+  ) {}
+
+  async onModuleInit() {
+    await this.categoriesService.fillCategories(categoryData);
+    await this.productsService.fillProducts(productsData);
+  }
+}

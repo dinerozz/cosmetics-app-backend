@@ -1,12 +1,11 @@
 import {
   BelongsTo,
   Column,
-  DataType,
   ForeignKey,
   Model,
   Table,
 } from "sequelize-typescript";
-import { DataTypes, UUIDV4 } from "sequelize";
+import { DataTypes } from "sequelize";
 import { User } from "../users/users.model";
 
 @Table({ tableName: "user_preferences" })
@@ -19,15 +18,32 @@ export class UserPreferences extends Model<UserPreferences> {
   id: string;
 
   @ForeignKey(() => User)
-  @Column({ type: DataTypes.UUID })
+  @Column({ type: DataTypes.UUID, allowNull: false })
   userId: string;
 
-  @Column({ type: DataTypes.STRING, unique: false })
+  @Column({
+    type: DataTypes.ENUM,
+    values: [
+      "skinType",
+      "hairType",
+      "ageGroup",
+      "skinConcern",
+      "usageTime",
+      "season",
+      "productPurpose",
+      "specialConditions",
+      "ingredients",
+      "ethicalPreferences",
+      "brand",
+      "other",
+    ],
+    allowNull: false,
+  })
   preferenceType: string;
 
-  @Column({ type: DataTypes.STRING, unique: false })
+  @Column({ type: DataTypes.STRING, allowNull: false })
   preferenceValue: string;
 
   @BelongsTo(() => User)
-  users: User;
+  user: User;
 }

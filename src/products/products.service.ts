@@ -1,9 +1,72 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { Products } from "./products.model";
+import {
+  AgeGroup,
+  EthicalPreferences,
+  HairType,
+  Ingredients,
+  ProductPurpose,
+  Products,
+  SkinConcern,
+  SkinType,
+  UsageTime,
+} from "./products.model";
 import { CreateProductDto } from "./dto/products.dto";
 import { Categories } from "../categories/categories.model";
 import { UpdateProductDto } from "./dto/update-product.dto";
+
+export const productsData: CreateProductDto[] = [
+  {
+    categoryId: "54bd7040-be64-476d-afe6-e9cd139f2204",
+    productName: "Интенсивный увлажняющий крем для лица",
+    description:
+      "Глубоко увлажняет и восстанавливает кожу, предотвращает появление морщин.",
+    imageURL: "/images/moisturizer.jpg",
+    skinType: SkinType.Dry,
+    ageGroup: AgeGroup.Young,
+    skinConcern: [SkinConcern.Dryness],
+    usageTime: UsageTime.Morning,
+    ingredients: [Ingredients.HyaluronicAcid, Ingredients.VitaminC],
+    ethicalPreferences: [
+      EthicalPreferences.CrueltyFree,
+      EthicalPreferences.Organic,
+    ],
+    purpose: ProductPurpose.Hydration,
+    brand: "HydraGenius",
+  },
+  {
+    categoryId: "dcef54a8-3ccd-4b59-ab11-6d954731e997",
+    productName: "Восстанавливающий шампунь для волос",
+    description:
+      "Укрепляет корни волос и способствует их росту, предотвращает выпадение волос.",
+    imageURL: "/images/shampoo.jpg",
+    hairType: HairType.Dry,
+    ageGroup: AgeGroup.Mature,
+    usageTime: UsageTime.Evening,
+    ingredients: [Ingredients.Peptides, Ingredients.VitaminB3],
+    ethicalPreferences: [EthicalPreferences.EcoPackaging],
+    purpose: ProductPurpose.Nutrition,
+    brand: "StrengthHair",
+  },
+  {
+    categoryId: "47c8f6b6-2f45-4c90-84ba-4a3cff299a88",
+    productName: "Солнцезащитный крем SPF 50",
+    description:
+      "Обеспечивает высокую защиту от UVA и UVB лучей, подходит для чувствительной кожи.",
+    imageURL: "/images/sunscreen.jpg",
+    skinType: SkinType.Normal,
+    ageGroup: AgeGroup.Senior,
+    skinConcern: [SkinConcern.Sensitivity],
+    usageTime: UsageTime.Morning,
+    ingredients: [Ingredients.SPF],
+    ethicalPreferences: [
+      EthicalPreferences.NoChemicals,
+      EthicalPreferences.CrueltyFree,
+    ],
+    purpose: ProductPurpose.Protection,
+    brand: "SunBlocker",
+  },
+];
 
 @Injectable()
 export class ProductsService {
@@ -12,8 +75,32 @@ export class ProductsService {
     private productsModel: typeof Products
   ) {}
 
+  async addProduct(productData: CreateProductDto): Promise<Products> {
+    const [product, created] = await this.productsModel.findOrCreate({
+      where: { productName: productData.productName },
+      defaults: {
+        ...productData,
+      },
+    });
+
+    if (created) {
+      console.log(`Категория ${productData.productName} успешно добавлена.`);
+    } else {
+      console.log(`Категория ${productData.productName} уже существует.`);
+    }
+
+    return product;
+  }
+
+  async fillProducts(products: CreateProductDto[]) {
+    for (const productData of products) {
+      await this.addProduct(productData);
+    }
+    console.log("Продукты успешно добавлены.");
+  }
+
   async create(createProductDto: CreateProductDto[]) {
-    return this.productsModel.bulkCreate(createProductDto);
+    // return this.productsModel.bulkCreate(createProductDto);
   }
 
   async findAll() {
@@ -27,7 +114,7 @@ export class ProductsService {
   }
 
   async update(id: string, product: UpdateProductDto) {
-    return this.productsModel.update(product, { where: { id } });
+    // return this.productsModel.update(product, { where: { id } });
   }
 
   async remove(id: string) {

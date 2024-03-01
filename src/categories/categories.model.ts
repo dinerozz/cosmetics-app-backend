@@ -12,7 +12,7 @@ export class Categories extends Model<Categories> {
   })
   id: string;
 
-  @Column({ type: DataTypes.STRING, unique: false, allowNull: false })
+  @Column({ type: DataTypes.STRING, unique: true, allowNull: false })
   name: string;
 
   @Column({ type: DataTypes.STRING, unique: false, allowNull: false })

@@ -16,8 +16,9 @@ export class UserPreferencesController {
     return this.userPreferencesService.findAll();
   }
 
-  @Get()
+  @Get(":id")
   async findOne(@Param("id") id: string) {
+    console.log("123123");
     return this.userPreferencesService.findOne(id);
   }
 }

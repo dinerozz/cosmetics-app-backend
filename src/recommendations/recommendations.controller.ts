@@ -9,6 +9,6 @@ export class RecommendationsController {
 
   @Get(":userId")
   getRecommendations(@Param("userId") userId: string) {
-    return this.recommendationsService.generateRecommendations(userId);
+    return this.recommendationsService.getRecommendations(userId);
   }
 }

@@ -19,6 +19,6 @@ export class UserPreferencesService {
   }
 
   async findOne(id: string) {
-    return this.userPreferencesModel.findOne({ where: { id } });
+    return this.userPreferencesModel.findOne({ where: { userId: id } });
   }
 }

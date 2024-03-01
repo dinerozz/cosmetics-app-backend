@@ -16,29 +16,43 @@ export class RecommendationsService {
     private recommendationsModel: typeof Recommendations
   ) {}
 
-  async generateRecommendations(userId) {
-    const userPreferences = await this.userPreferencesModel.findAll({
+  async getRecommendations(userId: string) {
+    const preferences = await this.userPreferencesModel.findAll({
       where: { userId },
     });
 
-    let orConditions = userPreferences.map((pref) => {
-      return { [pref.preferenceType]: pref.preferenceValue };
+    const hasSkinTypePreference = preferences.some(
+      (p) => p.preferenceType === "skinType"
+    );
+    const hasHairTypePreference = preferences.some(
+      (p) => p.preferenceType === "hairType"
+    );
+    console.log(preferences, "preferences");
+    console.log(hasHairTypePreference, "hairType");
+    console.log(hasSkinTypePreference, "skinType");
+
+    const preferenceHandlers = {
+      skinType: (value) => (hasSkinTypePreference ? { skinType: value } : {}),
+      hairType: (value) => (hasHairTypePreference ? { hairType: value } : {}),
+      ageGroup: (value) => ({ ageGroup: value }),
+      brand: (value) => ({ brand: value }),
+      productPurpose: (value) => ({ productPurpose: value }),
+      season: (value) => ({ season: value }),
+      skinConcern: (value) => ({ skinConcern: { [Op.like]: `%${value}%` } }),
+      ingredients: (value) => ({ ingredients: { [Op.like]: `%${value}%` } }),
+    };
+
+    const filterOptions = preferences.reduce((acc, preference) => {
+      const handler = preferenceHandlers[preference.preferenceType];
+      if (handler) {
+        const condition = handler(preference.preferenceValue);
+        Object.assign(acc, condition);
+      }
+      return acc;
+    }, {});
+
+    return await this.productsModel.findAll({
+      where: filterOptions,
     });
-
-    const products = await this.productsModel.findAll({
-      where: {
-        [Op.or]: orConditions,
-      },
-    });
-
-    const recommendations = products.map((product) => ({
-      userId,
-      productId: product.id,
-      reason: `Подходит на основе предпочтений пользователя`,
-    }));
-
-    await this.recommendationsModel.bulkCreate(recommendations);
-
-    return products;
   }
 }

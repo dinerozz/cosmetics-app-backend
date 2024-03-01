@@ -9,7 +9,7 @@ import { DataTypes } from "sequelize";
 import { User } from "../users/users.model";
 import { Products } from "../products/products.model";
 
-@Table({ tableName: "recommendations" })
+@Table({ tableName: "recommendations", timestamps: true }) // Включение временных меток
 export class Recommendations extends Model<Recommendations> {
   @Column({
     type: DataTypes.UUID,
@@ -23,11 +23,15 @@ export class Recommendations extends Model<Recommendations> {
   userId: string;
 
   @ForeignKey(() => Products)
-  @Column({ type: DataTypes.UUID, allowNull: false, unique: false })
+  @Column({ type: DataTypes.UUID, allowNull: false })
   productId: string;
 
-  @Column({ type: DataTypes.STRING, allowNull: false, unique: false })
+  @Column({ type: DataTypes.TEXT, allowNull: false })
   reason: string;
+
+  // Поле для рейтинга рекомендации пользователем
+  @Column({ type: DataTypes.INTEGER, allowNull: true })
+  rating: number;
 
   @BelongsTo(() => Products)
   product: Products;
