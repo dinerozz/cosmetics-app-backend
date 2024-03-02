@@ -14,8 +14,8 @@ export class UserPreferencesService {
     return this.userPreferencesModel.create(userPreferences);
   }
 
-  async findAll() {
-    return this.userPreferencesModel.findAll();
+  async findAll(id: string) {
+    return this.userPreferencesModel.findAll({ where: { userId: id } });
   }
 
   async findOne(id: string) {

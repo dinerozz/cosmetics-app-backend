@@ -11,12 +11,12 @@ export class UserPreferencesController {
     return this.userPreferencesService.create(userPreferences);
   }
 
-  @Get()
-  async findAll() {
-    return this.userPreferencesService.findAll();
+  @Get(":id")
+  async findAll(@Param("id") id: string) {
+    return this.userPreferencesService.findAll(id);
   }
 
-  @Get(":id")
+  @Get("id/:id")
   async findOne(@Param("id") id: string) {
     console.log("123123");
     return this.userPreferencesService.findOne(id);

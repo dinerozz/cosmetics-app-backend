@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsArray, IsString } from "class-validator";
 
 export class UserPreferencesDto {
   @IsString()
@@ -7,6 +7,6 @@ export class UserPreferencesDto {
   @IsString()
   readonly preferenceType: string;
 
-  @IsString()
-  readonly preferenceValue: string;
+  @IsArray()
+  readonly preferenceValue: string[];
 }

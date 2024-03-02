@@ -8,6 +8,21 @@ import {
 import { DataTypes } from "sequelize";
 import { User } from "../users/users.model";
 
+export enum Preferences {
+  SkinType = "skinType",
+  HairType = "hairType",
+  AgeGroup = "ageGroup",
+  SkinConcern = "skinConcern",
+  UsageTime = "usageTime",
+  Season = "season",
+  ProductPurpose = "productPurpose",
+  SpecialConditions = "specialConditions",
+  Ingredients = "ingredients",
+  EthicalPreferences = "ethicalPreferences",
+  Brand = "brand",
+  Other = "other",
+}
+
 @Table({ tableName: "user_preferences" })
 export class UserPreferences extends Model<UserPreferences> {
   @Column({
@@ -23,26 +38,13 @@ export class UserPreferences extends Model<UserPreferences> {
 
   @Column({
     type: DataTypes.ENUM,
-    values: [
-      "skinType",
-      "hairType",
-      "ageGroup",
-      "skinConcern",
-      "usageTime",
-      "season",
-      "productPurpose",
-      "specialConditions",
-      "ingredients",
-      "ethicalPreferences",
-      "brand",
-      "other",
-    ],
+    values: Object.values(Preferences),
     allowNull: false,
   })
   preferenceType: string;
 
-  @Column({ type: DataTypes.STRING, allowNull: false })
-  preferenceValue: string;
+  @Column({ type: DataTypes.ARRAY(DataTypes.TEXT), allowNull: false })
+  preferenceValue: string[];
 
   @BelongsTo(() => User)
   user: User;

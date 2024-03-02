@@ -17,7 +17,7 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 
 export const productsData: CreateProductDto[] = [
   {
-    categoryId: "54bd7040-be64-476d-afe6-e9cd139f2204",
+    categoryId: "dcacb145-008e-4363-9aa2-7cba37cf7427",
     productName: "Интенсивный увлажняющий крем для лица",
     description:
       "Глубоко увлажняет и восстанавливает кожу, предотвращает появление морщин.",
@@ -35,7 +35,7 @@ export const productsData: CreateProductDto[] = [
     brand: "HydraGenius",
   },
   {
-    categoryId: "dcef54a8-3ccd-4b59-ab11-6d954731e997",
+    categoryId: "52fbdd32-64d9-4321-8226-73a6489ae346",
     productName: "Восстанавливающий шампунь для волос",
     description:
       "Укрепляет корни волос и способствует их росту, предотвращает выпадение волос.",
@@ -49,7 +49,7 @@ export const productsData: CreateProductDto[] = [
     brand: "StrengthHair",
   },
   {
-    categoryId: "47c8f6b6-2f45-4c90-84ba-4a3cff299a88",
+    categoryId: "a024b490-5b07-4e7c-b96e-d77ad375c192",
     productName: "Солнцезащитный крем SPF 50",
     description:
       "Обеспечивает высокую защиту от UVA и UVB лучей, подходит для чувствительной кожи.",
@@ -81,6 +81,7 @@ export class ProductsService {
       defaults: {
         ...productData,
       },
+      logging: console.log,
     });
 
     if (created) {

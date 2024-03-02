@@ -98,35 +98,30 @@ export class Products extends Model<Products> {
 
   @Column({
     type: DataTypes.STRING,
-    values: Object.values(SkinType),
     allowNull: true,
   })
   skinType: SkinType;
 
   @Column({
     type: DataTypes.STRING,
-    values: Object.values(HairType),
     allowNull: true,
   })
   hairType: HairType;
 
   @Column({
     type: DataTypes.STRING,
-    values: Object.values(AgeGroup),
     allowNull: true,
   })
   ageGroup: AgeGroup;
 
   @Column({
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    values: Object.values(SkinConcern),
+    type: DataTypes.ARRAY(DataTypes.TEXT),
     allowNull: true,
   })
   skinConcern: SkinConcern[];
 
   @Column({
     type: DataTypes.STRING,
-    values: Object.values(UsageTime),
     allowNull: true,
   })
   usageTime: UsageTime;
@@ -138,22 +133,19 @@ export class Products extends Model<Products> {
   specialConditions: string;
 
   @Column({
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    values: Object.values(Ingredients),
+    type: DataTypes.ARRAY(DataTypes.TEXT),
     allowNull: true,
   })
   ingredients: Ingredients[];
 
   @Column({
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    values: Object.values(EthicalPreferences),
+    type: DataTypes.ARRAY(DataTypes.TEXT),
     allowNull: true,
   })
   ethicalPreferences: EthicalPreferences[];
 
   @Column({
     type: DataTypes.STRING,
-    values: Object.values(ProductPurpose),
     allowNull: true,
   })
   purpose: ProductPurpose;
