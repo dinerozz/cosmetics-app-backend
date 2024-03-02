@@ -62,7 +62,7 @@ export class UsersService {
     await user.save();
     return user;
   }
-  x;
+
   async getUserById(userId) {
     const user = await this.userRepository.findByPk(userId);
     return user;
