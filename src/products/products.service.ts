@@ -17,7 +17,7 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 
 export const productsData: CreateProductDto[] = [
   {
-    categoryId: "dcacb145-008e-4363-9aa2-7cba37cf7427",
+    categoryId: "ad79d929-d635-450f-a481-90b094759cd9",
     productName: "Интенсивный увлажняющий крем для лица",
     description:
       "Глубоко увлажняет и восстанавливает кожу, предотвращает появление морщин.",
@@ -31,11 +31,11 @@ export const productsData: CreateProductDto[] = [
       EthicalPreferences.CrueltyFree,
       EthicalPreferences.Organic,
     ],
-    purpose: ProductPurpose.Hydration,
+    purpose: [ProductPurpose.Hydration],
     brand: "HydraGenius",
   },
   {
-    categoryId: "52fbdd32-64d9-4321-8226-73a6489ae346",
+    categoryId: "45882694-724a-44d6-b1c3-c69a3d654772",
     productName: "Восстанавливающий шампунь для волос",
     description:
       "Укрепляет корни волос и способствует их росту, предотвращает выпадение волос.",
@@ -45,11 +45,11 @@ export const productsData: CreateProductDto[] = [
     usageTime: UsageTime.Evening,
     ingredients: [Ingredients.Peptides, Ingredients.VitaminB3],
     ethicalPreferences: [EthicalPreferences.EcoPackaging],
-    purpose: ProductPurpose.Nutrition,
+    purpose: [ProductPurpose.Nutrition],
     brand: "StrengthHair",
   },
   {
-    categoryId: "a024b490-5b07-4e7c-b96e-d77ad375c192",
+    categoryId: "534ef229-ff43-404f-bb05-1bcaa0f4eba2",
     productName: "Солнцезащитный крем SPF 50",
     description:
       "Обеспечивает высокую защиту от UVA и UVB лучей, подходит для чувствительной кожи.",
@@ -63,7 +63,7 @@ export const productsData: CreateProductDto[] = [
       EthicalPreferences.NoChemicals,
       EthicalPreferences.CrueltyFree,
     ],
-    purpose: ProductPurpose.Protection,
+    purpose: [ProductPurpose.Protection],
     brand: "SunBlocker",
   },
 ];

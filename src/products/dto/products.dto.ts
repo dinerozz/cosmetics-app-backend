@@ -57,8 +57,8 @@ export class CreateProductDto {
   @IsEnum(EthicalPreferences, { each: true })
   ethicalPreferences: EthicalPreferences[];
 
-  @IsEnum(ProductPurpose)
-  purpose: ProductPurpose;
+  @IsArray()
+  purpose: ProductPurpose[];
 
   @IsString()
   brand: string;

@@ -15,7 +15,7 @@ export enum Preferences {
   SkinConcern = "skinConcern",
   UsageTime = "usageTime",
   Season = "season",
-  ProductPurpose = "productPurpose",
+  ProductPurpose = "purpose",
   SpecialConditions = "specialConditions",
   Ingredients = "ingredients",
   EthicalPreferences = "ethicalPreferences",

@@ -145,10 +145,10 @@ export class Products extends Model<Products> {
   ethicalPreferences: EthicalPreferences[];
 
   @Column({
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.TEXT),
     allowNull: true,
   })
-  purpose: ProductPurpose;
+  purpose: string[];
 
   @Column({ type: DataTypes.STRING, allowNull: true })
   brand: string;

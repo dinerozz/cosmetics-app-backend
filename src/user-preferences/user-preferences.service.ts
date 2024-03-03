@@ -10,8 +10,8 @@ export class UserPreferencesService {
     private userPreferencesModel: typeof UserPreferences
   ) {}
 
-  async create(userPreferences: UserPreferencesDto) {
-    return this.userPreferencesModel.create(userPreferences);
+  async create(userPreferences: UserPreferencesDto[]) {
+    return this.userPreferencesModel.bulkCreate(userPreferences);
   }
 
   async findAll(id: string) {
