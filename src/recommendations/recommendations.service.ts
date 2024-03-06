@@ -27,129 +27,164 @@ export class RecommendationsService {
     private recommendationsModel: typeof Recommendations
   ) {}
 
+  // async getRecommendations(userId: string) {
+  //   const preferences = await this.userPreferencesModel.findAll({
+  //     where: { userId },
+  //   });
+  //
+  //   const preferenceFlags = preferences.reduce(
+  //     (acc, p) => {
+  //       acc.hasSkinTypePreference =
+  //         acc.hasSkinTypePreference ||
+  //         p.preferenceType === Preferences.SkinType;
+  //       acc.hasHairTypePreference =
+  //         acc.hasHairTypePreference ||
+  //         p.preferenceType === Preferences.HairType;
+  //       acc.hasAgeGroupPreference =
+  //         acc.hasAgeGroupPreference ||
+  //         p.preferenceType === Preferences.AgeGroup;
+  //       acc.hasSkinConcernPreference =
+  //         acc.hasSkinConcernPreference ||
+  //         p.preferenceType === Preferences.SkinConcern;
+  //       acc.hasUsageTimePreference =
+  //         acc.hasUsageTimePreference ||
+  //         p.preferenceType === Preferences.UsageTime;
+  //       acc.hasProductPurposePreference =
+  //         acc.hasProductPurposePreference ||
+  //         p.preferenceType === Preferences.ProductPurpose;
+  //       acc.hasBrandPreference =
+  //         acc.hasBrandPreference || p.preferenceType === Preferences.Brand;
+  //       acc.hasSeasonPreference =
+  //         acc.hasSeasonPreference || p.preferenceType === Preferences.Season;
+  //       acc.hasIngredientsPreference =
+  //         acc.hasIngredientsPreference ||
+  //         p.preferenceType === Preferences.Ingredients;
+  //       return acc;
+  //     },
+  //     {
+  //       hasSkinTypePreference: false,
+  //       hasHairTypePreference: false,
+  //       hasAgeGroupPreference: false,
+  //       hasSkinConcernPreference: false,
+  //       hasUsageTimePreference: false,
+  //       hasProductPurposePreference: false,
+  //       hasBrandPreference: false,
+  //       hasSeasonPreference: false,
+  //       hasIngredientsPreference: false,
+  //     }
+  //   );
+  //
+  //   const {
+  //     hasSkinTypePreference,
+  //     hasHairTypePreference,
+  //     hasAgeGroupPreference,
+  //     hasSkinConcernPreference,
+  //     hasUsageTimePreference,
+  //     hasProductPurposePreference,
+  //     hasBrandPreference,
+  //     hasSeasonPreference,
+  //     hasIngredientsPreference,
+  //   } = preferenceFlags;
+  //
+  //   console.log(preferenceFlags, "flags");
+  //
+  //   type TPreferenceHandlers = {
+  //     skinType: (value: string[]) => { skinType: SkinType[] } | {};
+  //     hairType: (value: string[]) => { skinType: HairType[] } | {};
+  //     ageGroup: (value: string[]) => { ageGroup: AgeGroup[] } | {};
+  //     brand: (value: string[]) => { brand: string[] } | {};
+  //     productPurpose: (
+  //       value: string[]
+  //     ) => { productPurpose: ProductPurpose[] } | {};
+  //     season: (value: string[]) => { season: string[] } | {};
+  //     skinConcern: (value: string[]) => { skinConcern: SkinConcern[] } | {};
+  //     ingredients: (value: string[]) => { ingredients: Ingredients[] } | {};
+  //   };
+  //
+  //   const preferenceHandlers: TPreferenceHandlers = {
+  //     skinType: (value) => (hasSkinTypePreference ? { skinType: value } : {}),
+  //     hairType: (value) => (hasHairTypePreference ? { hairType: value } : {}),
+  //     ageGroup: (value) => (hasAgeGroupPreference ? { ageGroup: value } : {}),
+  //     brand: (value) => (hasBrandPreference ? { brand: value } : {}),
+  //     productPurpose: (value) =>
+  //       hasProductPurposePreference ? { productPurpose: value } : {},
+  //     season: (value) => (hasSeasonPreference ? { season: value } : {}),
+  //     skinConcern: (value) =>
+  //       hasSkinConcernPreference
+  //         ? { skinConcern: { [Op.contains]: value } }
+  //         : {},
+  //     ingredients: (value) =>
+  //       hasIngredientsPreference
+  //         ? { ingredients: { [Op.contains]: value } }
+  //         : {},
+  //   };
+  //
+  //   const filterConditions = [];
+  //
+  //   Object.entries(preferenceHandlers).forEach(([preferenceType, handler]) => {
+  //     const preference = preferences.find(
+  //       (p) => p.preferenceType === preferenceType
+  //     );
+  //     if (preference) {
+  //       const condition = handler(preference.preferenceValue);
+  //       if (Object.keys(condition).length > 0) {
+  //         filterConditions.push(condition);
+  //       }
+  //     }
+  //   });
+  //
+  //   return await this.productsModel.findAll({
+  //     where: { [Op.or]: filterConditions },
+  //     logging: console.log,
+  //   });
+  // }
+
   async getRecommendations(userId: string) {
     const preferences = await this.userPreferencesModel.findAll({
       where: { userId },
     });
 
-    const preferenceFlags = preferences.reduce(
-      (acc, p) => {
-        acc.hasSkinTypePreference =
-          acc.hasSkinTypePreference ||
-          p.preferenceType === Preferences.SkinType;
-        acc.hasHairTypePreference =
-          acc.hasHairTypePreference ||
-          p.preferenceType === Preferences.HairType;
-        acc.hasAgeGroupPreference =
-          acc.hasAgeGroupPreference ||
-          p.preferenceType === Preferences.AgeGroup;
-        acc.hasSkinConcernPreference =
-          acc.hasSkinConcernPreference ||
-          p.preferenceType === Preferences.SkinConcern;
-        acc.hasUsageTimePreference =
-          acc.hasUsageTimePreference ||
-          p.preferenceType === Preferences.UsageTime;
-        acc.hasProductPurposePreference =
-          acc.hasProductPurposePreference ||
-          p.preferenceType === Preferences.ProductPurpose;
-        acc.hasBrandPreference =
-          acc.hasBrandPreference || p.preferenceType === Preferences.Brand;
-        acc.hasSeasonPreference =
-          acc.hasSeasonPreference || p.preferenceType === Preferences.Season;
-        acc.hasIngredientsPreference =
-          acc.hasIngredientsPreference ||
-          p.preferenceType === Preferences.Ingredients;
+    // Преобразование предпочтений в объект для удобного доступа
+    const prefsMap = preferences.reduce(
+      (acc, { preferenceType, preferenceValue }) => {
+        acc[preferenceType] = preferenceValue;
         return acc;
       },
-      {
-        hasSkinTypePreference: false,
-        hasHairTypePreference: false,
-        hasAgeGroupPreference: false,
-        hasSkinConcernPreference: false,
-        hasUsageTimePreference: false,
-        hasProductPurposePreference: false,
-        hasBrandPreference: false,
-        hasSeasonPreference: false,
-        hasIngredientsPreference: false,
-      }
+      {}
     );
 
-    const {
-      hasSkinTypePreference,
-      hasHairTypePreference,
-      hasAgeGroupPreference,
-      hasSkinConcernPreference,
-      hasUsageTimePreference,
-      hasProductPurposePreference,
-      hasBrandPreference,
-      hasSeasonPreference,
-      hasIngredientsPreference,
-    } = preferenceFlags;
+    // Определение условий для приоритетного поиска
+    const priorityConditions = [];
+    if (prefsMap[Preferences.SkinType]) {
+      priorityConditions.push({ skinType: prefsMap[Preferences.SkinType] });
+    }
+    if (prefsMap[Preferences.SkinConcern]) {
+      priorityConditions.push({
+        skinConcern: prefsMap[Preferences.SkinConcern],
+      });
+    }
 
-    console.log(preferenceFlags, "flags");
+    // Попытка поиска с использованием приоритетных параметров
+    if (priorityConditions.length > 0) {
+      const priorityResults = await this.productsModel.findAll({
+        where: { [Op.and]: priorityConditions },
+      });
+      if (priorityResults.length > 0) return priorityResults;
+    }
 
-    type TPreferenceHandlers = {
-      skinType: (value: string[]) => { skinType: SkinType[] } | {};
-      hairType: (value: string[]) => { skinType: HairType[] } | {};
-      ageGroup: (value: string[]) => { ageGroup: AgeGroup[] } | {};
-      brand: (value: string[]) => { brand: string[] } | {};
-      productPurpose: (
-        value: string[]
-      ) => { productPurpose: ProductPurpose[] } | {};
-      season: (value: string[]) => { season: string[] } | {};
-      skinConcern: (value: string[]) => { skinConcern: SkinConcern[] } | {};
-      ingredients: (value: string[]) => { ingredients: Ingredients[] } | {};
-    };
-
-    const preferenceHandlers: TPreferenceHandlers = {
-      skinType: (value) => (hasSkinTypePreference ? { skinType: value } : {}),
-      hairType: (value) => (hasHairTypePreference ? { hairType: value } : {}),
-      ageGroup: (value) => (hasAgeGroupPreference ? { ageGroup: value } : {}),
-      brand: (value) => (hasBrandPreference ? { brand: value } : {}),
-      productPurpose: (value) =>
-        hasProductPurposePreference ? { productPurpose: value } : {},
-      season: (value) => (hasSeasonPreference ? { season: value } : {}),
-      skinConcern: (value) =>
-        hasSkinConcernPreference
-          ? { skinConcern: { [Op.contains]: value } }
-          : {},
-      ingredients: (value) =>
-        hasIngredientsPreference
-          ? { ingredients: { [Op.contains]: value } }
-          : {},
-    };
-
-    const filterConditions = [];
-
-    Object.entries(preferenceHandlers).forEach(([preferenceType, handler]) => {
-      const preference = preferences.find(
-        (p) => p.preferenceType === preferenceType
-      );
-      if (preference) {
-        const condition = handler(preference.preferenceValue);
-        if (Object.keys(condition).length > 0) {
-          filterConditions.push(condition);
-        }
-      }
-    });
+    // Если приоритетный поиск не дал результатов, используем остальные параметры
+    const secondaryConditions = Object.entries(prefsMap)
+      // @ts-ignore
+      .filter(([key]) => !Object.values(Preferences).includes(key)) // Исключаем приоритетные параметры
+      .map(([key, value]) => ({ [key]: value }));
 
     return await this.productsModel.findAll({
-      where: { [Op.or]: filterConditions },
-      logging: console.log,
+      where: {
+        [Op.or]:
+          secondaryConditions.length > 0
+            ? secondaryConditions
+            : priorityConditions,
+      },
     });
-
-    // const filterOptions = preferences.reduce((acc, preference) => {
-    //   const handler = preferenceHandlers[preference.preferenceType];
-    //   if (handler) {
-    //     const condition = handler(preference.preferenceValue);
-    //     Object.assign(acc, condition);
-    //   }
-    //   return acc;
-    // }, {});
-    // console.log(filterOptions, "filter options");
-    // return await this.productsModel.findAll({
-    //   where: { [Op.or]: filterOptions },
-    //   logging: console.log,
-    // });
   }
 }

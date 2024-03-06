@@ -6,7 +6,7 @@ import { Products } from "../products/products.model";
 export class Categories extends Model<Categories> {
   @Column({
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
+    // defaultValue: DataTypes.UUIDV4,
     unique: true,
     primaryKey: true,
   })

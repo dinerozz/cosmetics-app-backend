@@ -44,6 +44,7 @@ export class AuthService {
         HttpStatus.BAD_REQUEST
       );
     }
+
     const hashedPassword = await bcrypt.hash(userDto.password, 5);
     const user = await this.userService.createUser({
       ...userDto,

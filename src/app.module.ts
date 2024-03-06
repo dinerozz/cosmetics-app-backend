@@ -16,11 +16,10 @@ import { Products } from "./products/products.model";
 import { RecommendationsModule } from "./recommendations/recommendations.module";
 import { UserPreferencesModule } from "./user-preferences/user-preferences.module";
 import { Categories } from "./categories/categories.model";
-import {
-  CategoriesService,
-  categoryData,
-} from "./categories/categories.service";
-import { productsData, ProductsService } from "./products/products.service";
+import { CategoriesService } from "./categories/categories.service";
+import { ProductsService } from "./products/products.service";
+import { productsData } from "./products/constants";
+import { categoryData } from "./categories/constants";
 
 @Module({
   imports: [

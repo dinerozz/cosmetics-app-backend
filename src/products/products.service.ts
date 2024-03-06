@@ -15,59 +15,6 @@ import { CreateProductDto } from "./dto/products.dto";
 import { Categories } from "../categories/categories.model";
 import { UpdateProductDto } from "./dto/update-product.dto";
 
-export const productsData: CreateProductDto[] = [
-  {
-    categoryId: "ad79d929-d635-450f-a481-90b094759cd9",
-    productName: "Интенсивный увлажняющий крем для лица",
-    description:
-      "Глубоко увлажняет и восстанавливает кожу, предотвращает появление морщин.",
-    imageURL: "/images/moisturizer.jpg",
-    skinType: SkinType.Dry,
-    ageGroup: AgeGroup.Young,
-    skinConcern: [SkinConcern.Dryness],
-    usageTime: UsageTime.Morning,
-    ingredients: [Ingredients.HyaluronicAcid, Ingredients.VitaminC],
-    ethicalPreferences: [
-      EthicalPreferences.CrueltyFree,
-      EthicalPreferences.Organic,
-    ],
-    purpose: [ProductPurpose.Hydration],
-    brand: "HydraGenius",
-  },
-  {
-    categoryId: "45882694-724a-44d6-b1c3-c69a3d654772",
-    productName: "Восстанавливающий шампунь для волос",
-    description:
-      "Укрепляет корни волос и способствует их росту, предотвращает выпадение волос.",
-    imageURL: "/images/shampoo.jpg",
-    hairType: HairType.Dry,
-    ageGroup: AgeGroup.Mature,
-    usageTime: UsageTime.Evening,
-    ingredients: [Ingredients.Peptides, Ingredients.VitaminB3],
-    ethicalPreferences: [EthicalPreferences.EcoPackaging],
-    purpose: [ProductPurpose.Nutrition],
-    brand: "StrengthHair",
-  },
-  {
-    categoryId: "534ef229-ff43-404f-bb05-1bcaa0f4eba2",
-    productName: "Солнцезащитный крем SPF 50",
-    description:
-      "Обеспечивает высокую защиту от UVA и UVB лучей, подходит для чувствительной кожи.",
-    imageURL: "/images/sunscreen.jpg",
-    skinType: SkinType.Normal,
-    ageGroup: AgeGroup.Senior,
-    skinConcern: [SkinConcern.Sensitivity],
-    usageTime: UsageTime.Morning,
-    ingredients: [Ingredients.SPF],
-    ethicalPreferences: [
-      EthicalPreferences.NoChemicals,
-      EthicalPreferences.CrueltyFree,
-    ],
-    purpose: [ProductPurpose.Protection],
-    brand: "SunBlocker",
-  },
-];
-
 @Injectable()
 export class ProductsService {
   constructor(
