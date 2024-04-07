@@ -98,6 +98,20 @@ export const productsData: CreateProductDto[] = [
     brand: "PureSkin",
   },
   {
+    categoryId: "98a70aba-88b1-4b1b-8b4a-054ae2dbf501",
+    productName: "Крем для умывания",
+    description: "Глубоко очищает поры и удаляет макияж, увлажняет кожу.",
+    imageURL: "/images/cleansing_gel.jpg",
+    skinType: SkinType.Oily,
+    ageGroup: AgeGroup.Young,
+    skinConcern: [SkinConcern.AcneAndBreakouts],
+    usageTime: UsageTime.Morning,
+    ingredients: [Ingredients.AloeVera, Ingredients.VitaminB3],
+    ethicalPreferences: [EthicalPreferences.EcoPackaging],
+    purpose: [ProductPurpose.Cleansing],
+    brand: "PureSkin",
+  },
+  {
     categoryId: "769761ad-9d4a-400d-9492-2aed9a8e4659",
     productName: "Питательный крем для тела",
     description:

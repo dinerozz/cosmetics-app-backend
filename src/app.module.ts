@@ -20,6 +20,7 @@ import { CategoriesService } from "./categories/categories.service";
 import { ProductsService } from "./products/products.service";
 import { productsData } from "./products/constants";
 import { categoryData } from "./categories/constants";
+import { RolesService } from "./roles/roles.service";
 
 @Module({
   imports: [
@@ -52,15 +53,18 @@ import { categoryData } from "./categories/constants";
     SuggestionsModule,
     RecommendationsModule,
     UserPreferencesModule,
+    RolesModule,
   ],
 })
 export class AppModule implements OnModuleInit {
   constructor(
     private readonly categoriesService: CategoriesService,
-    private readonly productsService: ProductsService
+    private readonly productsService: ProductsService,
+    private readonly rolesService: RolesService
   ) {}
 
   async onModuleInit() {
+    await this.rolesService.seedRoles();
     await this.categoriesService.fillCategories(categoryData);
     await this.productsService.fillProducts(productsData);
   }
