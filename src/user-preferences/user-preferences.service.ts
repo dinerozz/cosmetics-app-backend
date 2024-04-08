@@ -10,8 +10,17 @@ export class UserPreferencesService {
     private userPreferencesModel: typeof UserPreferences
   ) {}
 
-  async create(userPreferences: UserPreferencesDto[]) {
-    return this.userPreferencesModel.bulkCreate(userPreferences);
+  async create(userPreferences: UserPreferencesDto[], userId: string) {
+    await this.userPreferencesModel.destroy({
+      where: { userId: userId },
+    });
+
+    const updatedPreferences = userPreferences.map((pref) => ({
+      ...pref,
+      userId: userId,
+    }));
+
+    return this.userPreferencesModel.bulkCreate(updatedPreferences);
   }
 
   async findAll(id: string) {

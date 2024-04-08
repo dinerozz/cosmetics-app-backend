@@ -153,38 +153,67 @@ export class RecommendationsService {
       {}
     );
 
-    // Определение условий для приоритетного поиска
-    const priorityConditions = [];
-    if (prefsMap[Preferences.SkinType]) {
-      priorityConditions.push({ skinType: prefsMap[Preferences.SkinType] });
-    }
-    if (prefsMap[Preferences.SkinConcern]) {
-      priorityConditions.push({
-        skinConcern: prefsMap[Preferences.SkinConcern],
-      });
-    }
+    // Создание списка условий для поиска
+    const searchConditions = Object.entries(prefsMap).map(([key, value]) => {
+      return { [key]: value };
+    });
 
-    // Попытка поиска с использованием приоритетных параметров
-    if (priorityConditions.length > 0) {
-      const priorityResults = await this.productsModel.findAll({
-        where: { [Op.and]: priorityConditions },
-      });
-      if (priorityResults.length > 0) return priorityResults;
-    }
-
-    // Если приоритетный поиск не дал результатов, используем остальные параметры
-    const secondaryConditions = Object.entries(prefsMap)
-      // @ts-ignore
-      .filter(([key]) => !Object.values(Preferences).includes(key)) // Исключаем приоритетные параметры
-      .map(([key, value]) => ({ [key]: value }));
-
-    return await this.productsModel.findAll({
+    // Использование Op.or для поиска продуктов, соответствующих любому из предпочтений
+    const results = await this.productsModel.findAll({
       where: {
-        [Op.or]:
-          secondaryConditions.length > 0
-            ? secondaryConditions
-            : priorityConditions,
+        [Op.or]: searchConditions,
       },
     });
+
+    return results;
   }
+
+  //   async getRecommendations(userId: string) {
+  //     const preferences = await this.userPreferencesModel.findAll({
+  //       where: { userId },
+  //     });
+  //
+  //     // Преобразование предпочтений в объект для удобного доступа
+  //     const prefsMap = preferences.reduce(
+  //       (acc, { preferenceType, preferenceValue }) => {
+  //         acc[preferenceType] = preferenceValue;
+  //         return acc;
+  //       },
+  //       {}
+  //     );
+  //
+  //     // Определение условий для приоритетного поиска
+  //     const priorityConditions = [];
+  //     if (prefsMap[Preferences.SkinType]) {
+  //       priorityConditions.push({ skinType: prefsMap[Preferences.SkinType] });
+  //     }
+  //     if (prefsMap[Preferences.SkinConcern]) {
+  //       priorityConditions.push({
+  //         skinConcern: prefsMap[Preferences.SkinConcern],
+  //       });
+  //     }
+  //
+  //     // Попытка поиска с использованием приоритетных параметров
+  //     if (priorityConditions.length > 0) {
+  //       const priorityResults = await this.productsModel.findAll({
+  //         where: { [Op.and]: priorityConditions },
+  //       });
+  //       if (priorityResults.length > 0) return priorityResults;
+  //     }
+  //
+  //     // Если приоритетный поиск не дал результатов, используем остальные параметры
+  //     const secondaryConditions = Object.entries(prefsMap)
+  //       // @ts-ignore
+  //       .filter(([key]) => !Object.values(Preferences).includes(key)) // Исключаем приоритетные параметры
+  //       .map(([key, value]) => ({ [key]: value }));
+  //
+  //     return await this.productsModel.findAll({
+  //       where: {
+  //         [Op.or]:
+  //           secondaryConditions.length > 0
+  //             ? secondaryConditions
+  //             : priorityConditions,
+  //       },
+  //     });
+  //   }
 }

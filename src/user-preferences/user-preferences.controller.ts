@@ -7,8 +7,14 @@ export class UserPreferencesController {
   constructor(private userPreferencesService: UserPreferencesService) {}
 
   @Post()
-  async create(@Body() userPreferences: UserPreferencesDto[]) {
-    return this.userPreferencesService.create(userPreferences);
+  async create(
+    @Body() body: { userPreferences: UserPreferencesDto[]; userId: string }
+  ) {
+    console.log(body.userId, "usuuuisd");
+    return this.userPreferencesService.create(
+      body.userPreferences,
+      body.userId
+    );
   }
 
   @Get(":id")
