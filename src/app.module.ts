@@ -21,6 +21,8 @@ import { ProductsService } from "./products/products.service";
 import { productsData } from "./products/constants";
 import { categoryData } from "./categories/constants";
 import { RolesService } from "./roles/roles.service";
+import { NotesModule } from "./notes/notes.module";
+import { Notes } from "./notes/notes.model";
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { RolesService } from "./roles/roles.service";
         Categories,
         Products,
         Recommendations,
+        Notes,
       ],
       autoLoadModels: true,
     }),
@@ -54,6 +57,7 @@ import { RolesService } from "./roles/roles.service";
     RecommendationsModule,
     UserPreferencesModule,
     RolesModule,
+    NotesModule,
   ],
 })
 export class AppModule implements OnModuleInit {

@@ -12,6 +12,7 @@ import { UserRoles } from "../roles/user-roles.model";
 import { DataTypes } from "sequelize";
 import { UserPreferences } from "../user-preferences/user-preferences.model";
 import { Recommendations } from "../recommendations/recommendations.model";
+import { Notes } from "../notes/notes.model";
 
 interface UserCreationAttributes {
   email: string;
@@ -75,4 +76,7 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @HasMany(() => Recommendations)
   recommendations: Recommendations[];
+
+  @HasMany(() => Notes)
+  notes: Notes[];
 }
